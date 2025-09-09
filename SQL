@@ -9,3 +9,7 @@ sudo pacman -S mssql-tools unixodbc
 echo 'export PATH=$PATH:/opt/mssql-tools/bin' >> ~/.bashrc
 source ~/.bashrc
 sqlcmd -S localhost -U SA -P "YourStrong!Passw0rd"
+
+test connection
+SELECT @@VERSION
+
