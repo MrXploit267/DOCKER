@@ -17,6 +17,13 @@ SELECT @@VERSION
 
 FOR MY SQL
 pull the latest image 
+get the client first
+---sudo pacman -S mysql-clients
+
 --docker pull mysql:latest 
 run container
---docker run --name mysql-workstation -e MYSQL_ROOT_PASSWORD=your_damn_secure_password -p 3306:3306 -v mysqldata:/var/lib/mysql -d mysql:latest
+--docker run --name mysql-workstation -e MYSQL_ROOT_PASSWORD=your_damn_secure_password -p 3306:3306 -v mysqldata:/var/lib/mysql -d mysql
+
+connect to the container
+mysql -h localhost -u root -p
+
