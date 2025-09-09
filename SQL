@@ -13,3 +13,10 @@ sqlcmd -S localhost -U SA -P "YourStrong!Passw0rd"
 test connection
 SELECT @@VERSION
 
+
+
+FOR MY SQL
+pull the latest image 
+--docker pull mysql:latest 
+run container
+--docker run --name mysql-workstation -e MYSQL_ROOT_PASSWORD=your_damn_secure_password -p 3306:3306 -v mysqldata:/var/lib/mysql -d mysql:latest
