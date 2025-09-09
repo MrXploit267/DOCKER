@@ -1,0 +1,11 @@
+we making an sql workstation on docker
+---docker pull mcr.microsoft.com/mssql/server:2019-latest #this is the image 
+--docker run -d --name sqlserver -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrong!Passw0rd" -p 1433:1433 m
+cr.microsoft.com/mssql/server:2019-latest # as we make the container
+---docker ps # to verify if its running
+
+connect to the server
+sudo pacman -S mssql-tools unixodbc
+echo 'export PATH=$PATH:/opt/mssql-tools/bin' >> ~/.bashrc
+source ~/.bashrc
+sqlcmd -S localhost -U SA -P "YourStrong!Passw0rd"
