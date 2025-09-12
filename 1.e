@@ -25,6 +25,7 @@ CRAFT DOCKER FILE - in host
   LABEL maintainer = "ME ofc"
   RUN addgroup -g <id> -S <groupname>
   RUN useradd -D -u <id> -G <goup> -s /bin/bash <username>
+  RUN sed -i 's|root:/bin/ash|root:sbin/nologin|' /etc/passwd
   RUN apk update && \
       apk add --no-cache \
       openssh \
@@ -34,9 +35,15 @@ CRAFT DOCKER FILE - in host
       &&  rm -rf  /var/cache/apk/*
   SHELL["/bin/bash", "-c"]
   EXPOSE 8080 #for internet
-  
-      
-
-
-
+  USER username # specify default user
+  run the image
+-docker run -it --rm  #limiting privileges
+                      --security-opt=no-new-priviliges <imageid> /bin/bash
+                      --privileged
+                      #limiting capabilities
+                      --can-drop all <capability name eg --cap-add NET_ADMIN>
+                      #running modes
+                      --read-only
+                      --tmpfs /dir # temporary file
+                      
 
