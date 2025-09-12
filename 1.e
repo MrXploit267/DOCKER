@@ -36,6 +36,9 @@ CRAFT DOCKER FILE - in host
   SHELL["/bin/bash", "-c"]
   EXPOSE 8080 #for internet
   USER username # specify default user
+
+build the machine on the same dir aas dockerfile
+docker build . -t imagename # the name of your choice
   run the image
 -docker run -it --rm  #limiting privileges
                       --security-opt=no-new-priviliges <imageid> /bin/bash
