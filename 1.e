@@ -48,5 +48,6 @@ docker build . -t imagename # the name of your choice
                       #running modes
                       --read-only
                       --tmpfs /dir # temporary file
-                      
 
+DOCKER FILE
+installer script + docker file
