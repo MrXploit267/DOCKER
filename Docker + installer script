@@ -1,0 +1,48 @@
+-Dokcer file contains the image pull, and basic configs
+--installer file contains command
+DOCKER FILE
+ FROM alpine:latest
+   2   │ 
+   3   │ LABEL maintainer = "Me OFC"
+   4   │ 
+   5   │ RUN apk add --no-cache bash python3 py3-pip 
+   6   │ WORKDIR /app
+   7   │ COPY install.sh .
+   8   │ COPY . .
+   9   │ RUN chmod +x install.sh
+  10   │ RUN python3 -m venv venv
+  11   │ RUN source venv/bin/activate
+  12   │ RUN pip3 install --no-cache-dir -r requirements.txt
+  13   │ RUN deactivate
+  14   │ EXPOSE 8000
+  15   │ CMD ["/bin/bash", "-c", "./install.sh && python3 app.py"]
+
+INSTALLER FILE contains the commands
+ #!/bin/sh
+   2   │ 
+   3   │ addgroup -g 12002 -S bangbros
+   4   │ adduser -u 1002 -D -G bangbros 
+   5   │ sed -i 's|root:/bin/ash|root:/sbin/nologin|' /etc/passwd
+   6   │ 
+   7   │ # Update package index and install some common tools
+   8   │ apk update
+   9   │ apk add --no-cache curl jq
+  10   │ apk add openssh vsftpd samba freerdp
+  11   │ # Create a dummy config file for the app
+  12   │ cat << EOF > /app/config.json
+  13   │ {
+  14   │   "app_name": "MrXploitApp",
+  15   │   "port": 8000,
+  16   │   "debug": true
+  17   │ }
+  18   │ EOF
+  19   │ 
+  20   │ # Set permissions for the app directory
+  21   │ chown -R nobody:nogroup /app
+  22   │ chmod -R 755 /app
+  23   │ 
+  24   │ # Verify Python is installed and ready
+  25   │ python3 --version
+  26   │ python3 -m http.server:8080
+  27   │ # Log completion
+  28   │ echo "Peaches says: install.sh done, you ungrateful bastard!"
