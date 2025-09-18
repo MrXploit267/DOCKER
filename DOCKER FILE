@@ -1,0 +1,88 @@
+A dockerfile  is like a script that auto builds a docker conntainer
+FROM- The starting point, pull the downloaded image
+eg. FROM alpine:latest
+
+LABEL- Metadata for the image
+eg. LABEL maintainer= "Me OFC <me@gmail.com>"
+eg. LABEL description= "bum ahh image"
+
+RUN- executes commands 
+eg. RUN apk add --no-cache bash
+
+COPY - Copy files from or directories from local machine
+eg. COPY ./file.py /app/file.py
+
+ADD - like copy but can handle URLs and auto-extract tarballs
+eg. ADD httpd://site.com/x.tar.gz /app/
+
+WORKIR-Sets the working dirfor subsequent instructions
+eg. WORKDIR /app/
+
+CMD- default command when the container starts. Only one cmd per dockerfile and can be overriden by docker run
+eg. CMD ["python3", "file.py"]
+
+ENTRYPOINT- Defines the main executable. its like cmd but harder to override
+eg. ENTRYPOINT ["/bin/bash"]
+
+EXPOSE- Ports to listen on
+eg. EXPOSE 8080
+-- u still need to map ports with docker run -p 8080:8080
+
+ENV- Sets env vars
+eg. ENV /home/me
+
+ARG- Defines build-time variables
+eg. ARG SECRET_KEY
+    RUN echo $SECRET_kEY > /app/config.txt
+---passed via docker build --build-arg
+
+VOLUME- Creates a mount point for persistent storage
+eg. VOLUME /data
+
+USER- Sets the user for subsequent instructions and when the conatiner runs
+eg. USER user
+
+HEALTHCHECK- Tells docker to check container health
+eg. HEALTHCHECK CMD curl --fail http://localhost:8080 || exit 1
+
+TIPS
+1. Combine RUN commands to make the image smaller
+2. Use specific build images
+3. .dockerignore - Exclude unnecessary files to speed up builds
+  eg # .dockerignore
+      *.log
+      .git
+      node_modules
+4. Multi-Stage builds. Use for compiling C/C++ or Rust code. Then only copy the binary to a slim image
+eg FROM rust:1.65 AS builder
+    WORKDIR /app
+    COPY . .
+    RUN cargo build --release
+
+    FROM ubuntu:20.04
+    COPY --from=builder /app/target/release/my_exploit /app/my_exploit
+    CMD ["/app/my_exploit"]
+
+BUILDING AND RUNNING
+docker build .(. symbolizes the current dir the dockerfile is in) -t alias
+docker run -d(detached sta) -it(interactive terminal) --rm(remove after image usage) -p 80:80(maps port) alias_id
+
+EXAMPLE OF A DOCKER FILE
+ FROM alpine:latest
+   2   │ 
+   3   │ LABEL maintainer = "Me OFC"
+   4   │ 
+   5   │ RUN apk add --no-cache bash python3 py3-pip 
+   6   │ WORKDIR /app
+   7   │ COPY install.sh .
+   8   │ COPY . .
+   9   │ RUN chmod +x install.sh
+  10   │ RUN python3 -m venv venv
+  11   │ RUN source venv/bin/activate
+  12   │ RUN pip3 install --no-cache-dir -r requirements.txt
+  13   │ RUN deactivate
+  14   │ EXPOSE 8000
+  15   │ CMD ["/bin/bash", "-c", "./install.sh && python3 app.py"]
+#ignore the numbering
+
+
