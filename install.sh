@@ -15,12 +15,7 @@ cat << EOF > /dookie/config.json
 	"debug": true
 }
 EOF
-chown -R peaches:userz
-#ensure dir exists
-if [! -f /dookie/config.json] then
-	echo "/dookie/config.json not found" >&2
-	exit 1
-fi
+chown -R peaches:userz /dookie
 
 
 
