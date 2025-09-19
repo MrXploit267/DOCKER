@@ -1,11 +1,6 @@
 #!/bin/bash
 
-apk add python3 py3-pip
-python3 -m venv vnev
-source venv/bin/activate
-pip3 install --no-cache-dir -r requirements.txt
-deactivate
-
+apk add python3 
 python3 -m http.server:7200
 
 #Verify user existence and correct shell
