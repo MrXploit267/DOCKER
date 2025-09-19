@@ -1,8 +1,6 @@
 #!/bin/bash
 
 apk add python3 
-python3 -m http.server:7200
-
 #Verify user existence and correct shell
 if ! id peaches >/dev/null 2>&1; then
 	echo "user not found" >&2
